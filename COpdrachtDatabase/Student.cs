@@ -10,6 +10,6 @@ namespace COpdrachtDatabase
         public int StudentID { get; set; }
         public decimal StudentHeight { get; set; }
         public float StudentWeight { get; set; }
-        public char StudentDivision { get; set; }
+        public short StudentDivision { get; set; }
     }
 }

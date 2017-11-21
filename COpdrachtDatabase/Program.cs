@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Linq;
 
 namespace COpdrachtDatabase
 {
     class Program
     {
+
         static void Main(string[] args)
         {
             Console.WriteLine("Database Programm preparing");
@@ -17,26 +19,32 @@ namespace COpdrachtDatabase
 
             if(answer == "y")
             {
-                db.Add(new Student() {StudentName = "ARYA Aenster",
-                    StudentDivision = 'a',
+                db.Students.Add(new Student()
+                {
+                    StudentName = "ARYA Aenster",
+                    StudentDivision = 1,
                     StudentHeight = 165.50m,
-                    StudentWeight = 65 });
+                    StudentWeight = 65
+                });
 
-                db.Add(new Student()
+                db.Students.Add(new Student()
                 {
                     StudentName = "Willfred NortMarkr",
-                    StudentDivision = 'b',
+                    StudentDivision = 2,
                     StudentHeight = 187.00m,
                     StudentWeight = 81
                 });
 
-                db.Add(new Student()
+                db.Students.Add(new Student()
                 {
                     StudentName = "Ys Nortgæn",
-                    StudentDivision = 'b',
+                    StudentDivision = 3,
                     StudentHeight = 193.00m,
                     StudentWeight = 84
                 });
+
+                var count = db.SaveChanges();
+                Console.WriteLine("{0} records saved to database", count);
 
 
             }
@@ -51,12 +59,16 @@ namespace COpdrachtDatabase
 
             Console.WriteLine("");
             Console.WriteLine("Current students in Database:");
+            Console.WriteLine(string.Format("Total entries: {0}",db.Students.Count()));
 
-            foreach(Student s in db.Students)
+            var sortedStudents = db.Students.Where(s => s.StudentName.StartsWith("Kar"));// karing is de persoon die terug komt omdat ik die heb toegevoed
+            sortedStudents = sortedStudents.OrderBy(s => s.StudentName);
+
+            foreach(var s in sortedStudents)
             {
                 Console.WriteLine(String.Format("Student ID: {0} Student name: {1}", s.StudentID, s.StudentName));
             }
-
+            Console.ReadKey();
 
         }
     }
