@@ -61,12 +61,12 @@ namespace COpdrachtDatabase
             Console.WriteLine("Current students in Database:");
             Console.WriteLine(string.Format("Total entries: {0}",db.Students.Count()));
 
-            var sortedStudents = db.Students.Where(s => s.StudentName.StartsWith("Kar"));// karing is de persoon die terug komt omdat ik die heb toegevoed
-            sortedStudents = sortedStudents.OrderBy(s => s.StudentName);
+            //var sortedStudents = db.Students.Where(s => s.StudentName.StartsWith("Kar"));// karing is de persoon die terug komt omdat ik die heb toegevoed
+            //sortedStudents = sortedStudents.OrderBy(s => s.StudentName);
 
-            foreach(var s in sortedStudents)
+            foreach(var s in db.Students)
             {
-                Console.WriteLine(String.Format("Student ID: {0} Student name: {1}", s.StudentID, s.StudentName));
+                Console.WriteLine(String.Format("Student ID: {0} Student name: {1}", s.StudentNumber, s.StudentName));
             }
             Console.ReadKey();
 
