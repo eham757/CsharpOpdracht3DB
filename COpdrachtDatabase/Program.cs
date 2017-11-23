@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace COpdrachtDatabase
 {
@@ -43,6 +44,12 @@ namespace COpdrachtDatabase
                     StudentWeight = 84
                 });
 
+                db.Students.Add(new Student()
+                {
+                    StudentName = "Nakar Adraga",
+                    StudentDivision = 99
+                });
+
                 var count = db.SaveChanges();
                 Console.WriteLine("{0} records saved to database", count);
 
@@ -57,6 +64,8 @@ namespace COpdrachtDatabase
                 Console.WriteLine("That was unclear for me");
             }
 
+
+
             Console.WriteLine("");
             Console.WriteLine("Current students in Database:");
             Console.WriteLine(string.Format("Total entries: {0}",db.Students.Count()));
@@ -68,8 +77,42 @@ namespace COpdrachtDatabase
             {
                 Console.WriteLine(String.Format("Student ID: {0} Student name: {1}", s.StudentNumber, s.StudentName));
             }
+
+            dbStudentNamesAndNumberOrderedByName(db);
+            dbSelectStudentNameAndNumberWithStudentNumber(db, 1010);
+            dbSelectStudentNameAndNumberAndheighttOrderedByHeightWhenHeightLargerThanGiven(db, 185.00m);
             Console.ReadKey();
 
+        }
+
+        static void dbStudentNamesAndNumberOrderedByName(SchoolContext db)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("Student Names and Numbers");
+            var items = db.Students.OrderBy(s => s.StudentName).Select( s => new { Name = s.StudentName, Number = s.StudentNumber});
+            foreach (var item in items)
+            {
+                Console.WriteLine(String.Format("Student name: {0},     Student number: {1}",item.Name, item.Number));
+            }
+        }
+
+        static void dbSelectStudentNameAndNumberWithStudentNumber(SchoolContext db, int number)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("Student Name and Number ");
+            var item = db.Students.Where(s => s.StudentNumber == number).Select(s => new { Name = s.StudentName, Number = s.StudentNumber }).SingleOrDefault();
+            Console.WriteLine(String.Format("Student name: {0},     Student number: {1}", item.Name, item.Number));
+        }
+        
+        static void dbSelectStudentNameAndNumberAndheighttOrderedByHeightWhenHeightLargerThanGiven(SchoolContext db, decimal height)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("Student Names and Numbers and height");
+            var items = db.Students.Where(s => s.StudentHeight > height).OrderBy(s => s.StudentName).Select(s => new { Name = s.StudentName, Number = s.StudentNumber, Height = s.StudentHeight });
+            foreach (var item in items)
+            {
+                Console.WriteLine(String.Format("Student name: {0},     Student number: {1},    Student height: {2}", item.Name, item.Number, item.Height));
+            }
         }
     }
 }
